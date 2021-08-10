@@ -11,7 +11,7 @@ public class BookWriter {
     public void createNewBook() {
         Book book = collectBook();
         Chapter chapter = collectChapter();
-        writer.put(String.valueOf(book.getBookTitle()), String.valueOf(chapter.getChapterTitle()));
+       // writer.put(String.valueOf(book.getBookTitle()), String.valueOf(chapter.getChapterTitle()));
         String chapterTitle = chapter.getChapterTitle().replaceAll("\\s+", "");
         String fileNameExtension = ".txt";
         String fileName = chapterTitle.concat(fileNameExtension);
