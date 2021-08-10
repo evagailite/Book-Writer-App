@@ -7,6 +7,8 @@ public class Menu {
     public void starts() {
         displayBookMenu();
 
+        bookWriter.syncBooks();
+
         int userChoice = Integer.parseInt(scanner.nextLine());
         handleBookChoice(userChoice);
     }
