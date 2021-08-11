@@ -37,6 +37,13 @@ public class StorageManager {
         bookAndChapterTitleFile.close();
     }
 
+    public void addChapter(String fileName, String content) throws IOException {
+        FileWriter chapterTitleFile = new FileWriter(fileName, true);
+        chapterTitleFile.write(content);
+        chapterTitleFile.close();
+    }
+
+
     public HashMap<Book, Chapter> getBookAndChapters(String fileName) throws IOException {
         HashMap<Book, Chapter> bookChapterHashMap = new HashMap();
 

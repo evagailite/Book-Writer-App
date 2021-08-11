@@ -61,10 +61,10 @@ public class Menu {
     private void handleChapterChoice(int userChoice, String bookTitle) {
         switch (userChoice) {
             case 1:
-                //bookWriter.createNewChapter();
+                bookWriter.createNewChapter(bookTitle);
                 break;
             case 2:
-                //bookWriter.openChapter();
+                bookWriter.openChapter(bookTitle);
                 break;
             case 3:
                 //bookWriter.viewChapters();
@@ -96,9 +96,9 @@ public class Menu {
     public void displayChapterMenu() {
         System.out.println("\nPlease choose an action: ");
         System.out.println("\t 1 - Create New Chapter");
-        System.out.println("\t 2 - Open a Chapter");
+        System.out.println("\t 2 - Open Chapter to Continue Writing");
         System.out.println("\t 3 - View Chapter");
-        System.out.println("\t 4 - View All Chapters");
+        System.out.println("\t 4 - Export All Chapters to Book");
         System.out.println("\t 5 - Return to Main");
     }
 
