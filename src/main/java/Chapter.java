@@ -19,6 +19,6 @@ public class Chapter {
     @Override
     public String toString() {
 //        return "Chapter: \"" + chapterTitle + "\"\n";
-        return chapterTitle + ",\n";
+        return chapterTitle + "\n";
     }
 }

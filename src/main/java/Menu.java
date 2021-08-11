@@ -19,7 +19,7 @@ public class Menu {
                 bookWriter.createNewBook();
                 break;
             case 2:
-                bookWriter.openBook();
+                openBook();
                 break;
             case 3:
                 bookWriter.deleteBook();
@@ -38,7 +38,27 @@ public class Menu {
         starts();
     }
 
-    private void handleChapterChoice(int userChoice) {
+    private void openBook() {
+        try {
+            System.out.print("Please enter Book title to open it: ");
+            String bookTitle = scanner.nextLine();
+            if (bookWriter.findBook(bookTitle)) {
+                displayChapterMenu();
+                try {
+                    int choice = Integer.parseInt(scanner.nextLine());
+                    handleChapterChoice(choice, bookTitle);
+                } catch (Exception e) {
+                }
+            } else {
+                System.out.println("Book with the title \"" + bookTitle + "\" not found!");
+                System.out.println("Please try again!");
+            }
+        } catch (Exception e) {
+            System.out.println("Something went wrong!");
+        }
+    }
+
+    private void handleChapterChoice(int userChoice, String bookTitle) {
         switch (userChoice) {
             case 1:
                 //bookWriter.createNewChapter();
@@ -53,9 +73,9 @@ public class Menu {
                 //bookWriter.viewAllChapters();
                 break;
             case 5:
-//                getCustomerMenu();
-//                userChoice = scanner.nextLine();
-//                handleCustomerChoice(userChoice, username);
+                displayBookMenu();
+                int choice = Integer.parseInt(scanner.nextLine());
+                handleBookChoice(choice);
                 break;
             default:
                 starts();

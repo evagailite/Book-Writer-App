@@ -31,18 +31,6 @@ public class BookWriter {
                 "\" and chapter \"" + chapter.getChapterTitle() + "\" created successfully!");
     }
 
-    private String getFileName(Book book, Chapter chapter) {
-
-        String chapterExtension = "_Ch_";
-        String getChapterName = chapter.getChapterTitle().replaceAll("\\s+", "");
-        String getBookTitleFileName = book.getBookTitle().replaceAll("\\s+", "").concat(chapterExtension);
-        String fileNameExtension = ".txt";
-        String fileName = getBookTitleFileName.concat(getChapterName);
-        String fileNameTotal = fileName.concat(fileNameExtension);
-
-        return fileNameTotal;
-    }
-
     private FileName collectFileName(String fileName) {
         FileName file = new FileName();
         try {
@@ -78,9 +66,6 @@ public class BookWriter {
         return chapter;
     }
 
-    public void openBook() {
-    }
-
     public void deleteBook() {
     }
 
@@ -89,7 +74,7 @@ public class BookWriter {
         for (int i = 0; i < lists.size(); i++) {
             HashMap<Book, Chapter> tmpData = (HashMap<Book, Chapter>) lists.get(i);
             for (Map.Entry<Book, Chapter> entry : tmpData.entrySet()) {
-                System.out.println((i + 1) + " Book: " + entry.getKey().getBookTitle() + " Chapter: " + entry.getValue().getChapterTitle());
+                System.out.println((i + 1) + " - Book: " + entry.getKey().getBookTitle() + " Chapter: " + entry.getValue().getChapterTitle());
             }
         }
     }
@@ -108,8 +93,17 @@ public class BookWriter {
                 e.printStackTrace();
             }
         }
-
     }
 
-
+    public boolean findBook(String bookTitle) {
+        for (int i = 0; i < lists.size(); i++) {
+            HashMap<Book, Chapter> tmpData = (HashMap<Book, Chapter>) lists.get(i);
+            for (Map.Entry<Book, Chapter> entry : tmpData.entrySet()) {
+                if (entry.getKey().getBookTitle().contains(bookTitle)) {
+                    return true;
+                }
+            }
+        }
+        return false;
+    }
 }
