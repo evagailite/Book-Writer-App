@@ -11,7 +11,10 @@ public class BookWriter {
     public void createNewBook() {
         Book book = collectBook();
         Chapter chapter = collectChapter();
-       // writer.put(String.valueOf(book.getBookTitle()), String.valueOf(chapter.getChapterTitle()));
+        writer.put(new Book(book.getBookTitle()), new Chapter(chapter.getChapterTitle()));
+
+        viewAllBooks();
+
         String chapterTitle = chapter.getChapterTitle().replaceAll("\\s+", "");
         String fileNameExtension = ".txt";
         String fileName = chapterTitle.concat(fileNameExtension);
@@ -24,6 +27,8 @@ public class BookWriter {
         } catch (IOException e) {
             e.printStackTrace();
         }
+        viewAllBooks();
+
         System.out.println("The Book \"" + book.getBookTitle() +
                 "\" and chapter \"" + chapter.getChapterTitle() + "\" created successfully!");
     }
@@ -82,9 +87,14 @@ public class BookWriter {
     }
 
     public void viewAllBooks() {
-        System.out.println(writer);
-        for (Map.Entry<String, String> entry : writer.entrySet()) {
-            System.out.println("Book: " + entry.getKey() + ", Chapter: " + entry.getValue());
+        for (FileName fileName : files) {
+            System.out.println(fileName.getFileName());
+        }
+
+        if (!writer.isEmpty()) {
+            for (Map.Entry<Book, Chapter> entry : writer.entrySet()) {
+                System.out.println("Book: " + entry.getKey().getBookTitle() + " Chapter: " + entry.getValue().getChapterTitle());
+            }
         }
     }
 
@@ -94,6 +104,7 @@ public class BookWriter {
         } catch (FileNotFoundException e) {
             e.printStackTrace();
         }
+
         for (FileName fileName : files) {
             try {
                 this.writer = storageManager.getBookAndChapters(fileName.getFileName());

@@ -1,7 +1,4 @@
-import java.io.File;
-import java.io.FileNotFoundException;
-import java.io.FileWriter;
-import java.io.IOException;
+import java.io.*;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Scanner;
@@ -40,16 +37,17 @@ public class StorageManager {
         bookAndChapterTitleFile.close();
     }
 
-    public HashMap<String, String> getBookAndChapters(String fileName) throws FileNotFoundException {
-        File books = new File(fileName);
-        //getting info from file
-        Scanner reader = new Scanner(books);
-        HashMap<String, String> bookChapterHashMap = new HashMap();
-        while (reader.hasNextLine()) {
-            String businessClassString = reader.nextLine();
-            String[] businessClassSeatsDetails = businessClassString.split(",");
-            if (businessClassSeatsDetails.length < 2) break;
-            bookChapterHashMap.put((businessClassSeatsDetails[0]), businessClassSeatsDetails[1]);
+    public HashMap<Book, Chapter> getBookAndChapters(String fileName) throws IOException {
+        // File books = new File(fileName);
+        BufferedReader reader = new BufferedReader(new FileReader(fileName));
+        HashMap<Book, Chapter> bookChapterHashMap = new HashMap();
+        String line = reader.readLine();
+        while (line != null) {
+            String bookAndChapterString = reader.readLine();
+            String[] bookAndChapterDetails = bookAndChapterString.split(",");
+            if (bookAndChapterDetails.length < 2) break;
+            bookChapterHashMap.put((new Book(bookAndChapterDetails[0])),
+                    (new Chapter(bookAndChapterDetails[0])));
         }
         return bookChapterHashMap;
     }
