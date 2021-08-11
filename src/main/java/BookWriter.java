@@ -7,13 +7,12 @@ public class BookWriter {
     private StorageManager storageManager = new StorageManager();
     private HashMap<Book, Chapter> writer = new HashMap<>();
     ArrayList<FileName> files = new ArrayList<>();
+    ArrayList lists = new ArrayList<>();
 
     public void createNewBook() {
         Book book = collectBook();
         Chapter chapter = collectChapter();
         writer.put(new Book(book.getBookTitle()), new Chapter(chapter.getChapterTitle()));
-
-        viewAllBooks();
 
         String chapterTitle = chapter.getChapterTitle().replaceAll("\\s+", "");
         String fileNameExtension = ".txt";
@@ -27,7 +26,6 @@ public class BookWriter {
         } catch (IOException e) {
             e.printStackTrace();
         }
-        viewAllBooks();
 
         System.out.println("The Book \"" + book.getBookTitle() +
                 "\" and chapter \"" + chapter.getChapterTitle() + "\" created successfully!");
@@ -87,13 +85,11 @@ public class BookWriter {
     }
 
     public void viewAllBooks() {
-        for (FileName fileName : files) {
-            System.out.println(fileName.getFileName());
-        }
 
-        if (!writer.isEmpty()) {
-            for (Map.Entry<Book, Chapter> entry : writer.entrySet()) {
-                System.out.println("Book: " + entry.getKey().getBookTitle() + " Chapter: " + entry.getValue().getChapterTitle());
+        for (int i = 0; i < lists.size(); i++) {
+            HashMap<Book, Chapter> tmpData = (HashMap<Book, Chapter>) lists.get(i);
+            for (Map.Entry<Book, Chapter> entry : tmpData.entrySet()) {
+                System.out.println((i + 1) + " Book: " + entry.getKey().getBookTitle() + " Chapter: " + entry.getValue().getChapterTitle());
             }
         }
     }
@@ -104,15 +100,16 @@ public class BookWriter {
         } catch (FileNotFoundException e) {
             e.printStackTrace();
         }
-
         for (FileName fileName : files) {
             try {
-                this.writer = storageManager.getBookAndChapters(fileName.getFileName());
-            } catch (FileNotFoundException e) {
+                writer = storageManager.getBookAndChapters(fileName.getFileName());
+                lists.add(writer);
+            } catch (IOException e) {
                 e.printStackTrace();
             }
         }
 
     }
+
 
 }
