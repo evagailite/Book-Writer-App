@@ -37,18 +37,26 @@ public class StorageManager {
         bookAndChapterTitleFile.close();
     }
 
+    public void addChapter(String fileName, String content) throws IOException {
+        FileWriter chapterTitleFile = new FileWriter(fileName, true);
+        chapterTitleFile.write(content);
+        chapterTitleFile.close();
+    }
+
     public HashMap<Book, Chapter> getBookAndChapters(String fileName) throws IOException {
-        // File books = new File(fileName);
-        BufferedReader reader = new BufferedReader(new FileReader(fileName));
         HashMap<Book, Chapter> bookChapterHashMap = new HashMap();
-        String line = reader.readLine();
-        while (line != null) {
-            String bookAndChapterString = reader.readLine();
-            String[] bookAndChapterDetails = bookAndChapterString.split(",");
-            if (bookAndChapterDetails.length < 2) break;
-            bookChapterHashMap.put((new Book(bookAndChapterDetails[0])),
-                    (new Chapter(bookAndChapterDetails[0])));
+
+        BufferedReader reader = new BufferedReader(new FileReader(fileName));
+
+        String key = reader.readLine();
+        String value = reader.readLine();
+
+        while (key != null && value != null) {
+            bookChapterHashMap.put(new Book(key), new Chapter(value));
+            key = reader.readLine();
+            value = reader.readLine();
         }
+
         return bookChapterHashMap;
     }
 
@@ -64,6 +72,15 @@ public class StorageManager {
             allFileNames.add(new FileName(booksFileNameDetails[0]));
         }
         return allFileNames;
+    }
+
+    public void displayChapterContent(String fileName) throws IOException {
+        BufferedReader reader = new BufferedReader(new FileReader(fileName));
+        String line;
+        while ((line = reader.readLine()) != null) {
+            System.out.println(line);
+        }
+        reader.close();
     }
 
 }
