@@ -67,7 +67,7 @@ public class Menu {
                 bookWriter.openChapter(bookTitle);
                 break;
             case 3:
-                //bookWriter.viewChapters();
+                bookWriter.viewChapters();
                 break;
             case 4:
                 //bookWriter.viewAllChapters();
@@ -81,7 +81,7 @@ public class Menu {
                 starts();
                 break;
         }
-        starts();
+        handleChapterChoice(userChoice, bookTitle);
     }
 
     public void displayBookMenu() {

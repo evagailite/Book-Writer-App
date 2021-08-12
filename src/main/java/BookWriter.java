@@ -117,8 +117,6 @@ public class BookWriter {
         String fileNameExtension = ".txt";
         String fileName = chapterTitle.concat(fileNameExtension);
 
-//        StringBuilder content = chapterContent();
-
         try {
             FileName file = collectFileName(fileName);
             storageManager.addToFilesFile(file);
@@ -132,41 +130,53 @@ public class BookWriter {
                 "successfully added to the Book \"" + bookTitle + "\"!");
     }
 
-    private StringBuilder chapterContent() {
-        StringBuilder content = new StringBuilder();
-        System.out.println("Start writing here (to finish type \"THE-END\")");
-        while (scanner.hasNextLine()) {
-            String line = scanner.nextLine();
-            if (!line.equals("THE-END")) {
-                content.append(line + System.lineSeparator());
-            } else {
-                break;
-            }
-            scanner.close();
-        }
-        return content;
-    }
-
     public void openChapter(String bookTitle) {
+
         displayChapter(bookTitle);
+
         try {
             System.out.println("Please enter chapter title to open it:");
             String chapterTitle = scanner.nextLine();
+            System.out.println(" ");
             if (findChapter(chapterTitle)) {
 
                 String chapter = chapterTitle.replaceAll("\\s+", "");
                 String fileNameExtension = ".txt";
                 String fileName = chapter.concat(fileNameExtension);
 
-                StringBuilder content = chapterContent();
+                storageManager.displayChapterContent(fileName);
 
-                storageManager.addChapter(fileName, content.toString());
+                createContent(fileName);
+
             } else {
                 System.out.println("Chapter with the title \"" + chapterTitle + "\" not found!");
                 System.out.println("Please try again!");
             }
         } catch (Exception e) {
             System.out.println("Something went wrong!");
+        }
+    }
+
+    private void createContent(String fileName) {
+        String content = null;
+        System.out.println("\nStart writing here (to finish type \"THE-END\")");
+        while (scanner.hasNextLine()) {
+            String line = scanner.nextLine();
+            if (!line.equals("THE-END")) {
+                try {
+                    storageManager.addChapter(fileName, line.concat("\n"));
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
+            } else {
+                break;
+            }
+        }
+
+        try {
+            storageManager.addChapter(fileName, String.valueOf(content));
+        } catch (IOException e) {
+            e.printStackTrace();
         }
     }
 
@@ -183,14 +193,18 @@ public class BookWriter {
     }
 
     private void displayChapter(String bookTitle) {
-        System.out.println("All chapters within Book " + bookTitle + ": ");
+        System.out.println("All chapters within Book \"" + bookTitle + "\": ");
         for (int i = 0; i < lists.size(); i++) {
             HashMap<Book, Chapter> tmpData = (HashMap<Book, Chapter>) lists.get(i);
             for (Map.Entry<Book, Chapter> entry : tmpData.entrySet()) {
                 if (entry.getKey().getBookTitle().contains(bookTitle)) {
-                    System.out.println((i + 1) + entry.getValue().getChapterTitle());
+                    System.out.println(entry.getValue().getChapterTitle());
                 }
             }
         }
+    }
+
+    public void viewChapters() {
+
     }
 }

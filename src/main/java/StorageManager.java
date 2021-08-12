@@ -43,7 +43,6 @@ public class StorageManager {
         chapterTitleFile.close();
     }
 
-
     public HashMap<Book, Chapter> getBookAndChapters(String fileName) throws IOException {
         HashMap<Book, Chapter> bookChapterHashMap = new HashMap();
 
@@ -73,6 +72,15 @@ public class StorageManager {
             allFileNames.add(new FileName(booksFileNameDetails[0]));
         }
         return allFileNames;
+    }
+
+    public void displayChapterContent(String fileName) throws IOException {
+        BufferedReader reader = new BufferedReader(new FileReader(fileName));
+        String line;
+        while ((line = reader.readLine()) != null) {
+            System.out.println(line);
+        }
+        reader.close();
     }
 
 }
