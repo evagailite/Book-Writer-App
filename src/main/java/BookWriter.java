@@ -135,10 +135,10 @@ public class BookWriter {
         displayChapter(bookTitle);
 
         try {
-            System.out.println("Please enter chapter title to open it:");
+            System.out.print("Please enter chapter title to open it:");
             String chapterTitle = scanner.nextLine();
             System.out.println(" ");
-            if (findChapter(chapterTitle)) {
+            if (doesChapterExists(chapterTitle)) {
 
                 String chapter = chapterTitle.replaceAll("\\s+", "");
                 String fileNameExtension = ".txt";
@@ -172,15 +172,15 @@ public class BookWriter {
                 break;
             }
         }
-
-        try {
-            storageManager.addChapter(fileName, String.valueOf(content));
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
+//
+//        try {
+//            storageManager.addChapter(fileName, String.valueOf(content));
+//        } catch (IOException e) {
+//            e.printStackTrace();
+//        }
     }
 
-    private boolean findChapter(String chapterTitle) {
+    private boolean doesChapterExists(String chapterTitle) {
         for (int i = 0; i < lists.size(); i++) {
             HashMap<Book, Chapter> tmpData = (HashMap<Book, Chapter>) lists.get(i);
             for (Map.Entry<Book, Chapter> entry : tmpData.entrySet()) {
@@ -204,7 +204,26 @@ public class BookWriter {
         }
     }
 
-    public void viewChapters() {
+    public void viewChaptersWithContent(String bookTitle) {
+        displayChapter(bookTitle);
+        try {
+            System.out.print("Please enter chapter title to view it:");
+            String chapterTitle = scanner.nextLine();
+            System.out.println(" ");
+            if (doesChapterExists(chapterTitle)) {
 
+                String chapter = chapterTitle.replaceAll("\\s+", "");
+                String fileNameExtension = ".txt";
+                String fileName = chapter.concat(fileNameExtension);
+
+                storageManager.displayChapterContent(fileName);
+
+            } else {
+                System.out.println("Chapter with the title \"" + chapterTitle + "\" not found!");
+                System.out.println("Please try again!");
+            }
+        } catch (Exception e) {
+            System.out.println("Something went wrong!");
+        }
     }
 }

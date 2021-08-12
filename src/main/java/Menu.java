@@ -67,21 +67,24 @@ public class Menu {
                 bookWriter.openChapter(bookTitle);
                 break;
             case 3:
-                bookWriter.viewChapters();
+                bookWriter.viewChaptersWithContent(bookTitle);
                 break;
             case 4:
-                //bookWriter.viewAllChapters();
+                //bookWriter.mergeAllChapters();
                 break;
+
             case 5:
                 displayBookMenu();
                 int choice = Integer.parseInt(scanner.nextLine());
                 handleBookChoice(choice);
                 break;
             default:
-                starts();
+                handleChapterChoice(userChoice, bookTitle);
                 break;
         }
-        handleChapterChoice(userChoice, bookTitle);
+        displayChapterMenu();
+        int choice = Integer.parseInt(scanner.nextLine());
+        handleChapterChoice(choice, bookTitle);
     }
 
     public void displayBookMenu() {

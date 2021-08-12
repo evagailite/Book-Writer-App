@@ -1,4 +1,1 @@
 SummerTime.txt,
-WinterStartsHere.txt,
-IsdThereSomethingIntereseting.txt,
-NextTrip.txt,
