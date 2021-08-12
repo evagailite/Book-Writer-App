@@ -2,26 +2,46 @@ import java.io.*;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Scanner;
+import java.util.stream.Collectors;
 
 public class StorageManager {
-    private static final String allBookFilesName = "files.txt";
+    private static final String allChapterFilesName = "chapterFiles.txt";
+    private static final String allFinishedBookFilesName = "finishedBooks.txt";
 
     public StorageManager() {
         try {
-            createFilesFile();
+            createChapterFile();
+            createFinishedBooksFile();
         } catch (IOException e) {
             e.printStackTrace();
         }
     }
 
-    public void createFilesFile() throws IOException {
-        File filesFile = new File(allBookFilesName);
+    public void createChapterFile() throws IOException {
+        File filesFile = new File(allChapterFilesName);
+        filesFile.createNewFile();
+    }
+
+    public void createFinishedBooksFile() throws IOException {
+        File filesFile = new File(allFinishedBookFilesName);
         filesFile.createNewFile();
     }
 
     public void addToFilesFile(FileName fileName) throws IOException {
-        FileWriter savedFilesName = new FileWriter(allBookFilesName, true);
+        FileWriter savedFilesName = new FileWriter(allChapterFilesName, true);
         savedFilesName.write(fileName.toString());
+        savedFilesName.close();
+    }
+
+    public void addToFilesFile(String fileName) throws IOException {
+        FileWriter savedFilesName = new FileWriter(allChapterFilesName);
+        savedFilesName.write(fileName);
+        savedFilesName.close();
+    }
+
+    public void addFinishedBookToFile(String fileName) throws IOException {
+        FileWriter savedFilesName = new FileWriter(allFinishedBookFilesName, true);
+        savedFilesName.write(fileName);
         savedFilesName.close();
     }
 
@@ -45,24 +65,19 @@ public class StorageManager {
 
     public HashMap<Book, Chapter> getBookAndChapters(String fileName) throws IOException {
         HashMap<Book, Chapter> bookChapterHashMap = new HashMap();
-
         BufferedReader reader = new BufferedReader(new FileReader(fileName));
-
         String key = reader.readLine();
         String value = reader.readLine();
-
         while (key != null && value != null) {
             bookChapterHashMap.put(new Book(key), new Chapter(value));
             key = reader.readLine();
             value = reader.readLine();
         }
-
         return bookChapterHashMap;
     }
 
     public ArrayList<FileName> getFileNames() throws FileNotFoundException {
-        File booksInformation = new File(allBookFilesName);
-        //getting info from file
+        File booksInformation = new File(allChapterFilesName);
         Scanner reader = new Scanner(booksInformation);
         ArrayList<FileName> allFileNames = new ArrayList<>();
         while (reader.hasNextLine()) {
@@ -74,6 +89,20 @@ public class StorageManager {
         return allFileNames;
     }
 
+    public ArrayList getFinishedBooks() throws FileNotFoundException {
+        File booksInformation = new File(allFinishedBookFilesName);
+        Scanner reader = new Scanner(booksInformation);
+        ArrayList finishedBooks = new ArrayList<>();
+        while (reader.hasNextLine()) {
+            String booksFileNameString = reader.nextLine();
+            String[] booksFileNameDetails = booksFileNameString.split(",");
+            if (booksFileNameDetails.length < 1) break;
+            finishedBooks.add(new FileName(booksFileNameDetails[0]));
+        }
+        return finishedBooks;
+    }
+
+
     public void displayChapterContent(String fileName) throws IOException {
         BufferedReader reader = new BufferedReader(new FileReader(fileName));
         String line;
@@ -83,4 +112,32 @@ public class StorageManager {
         reader.close();
     }
 
+    public void deleteChapters(String fileName) {
+        File deleteFile = new File(fileName);
+        deleteFile.delete();
+    }
+
+    public void mergeFiles(String fileName, String newFile) throws IOException {
+        FileWriter newFileBook = new FileWriter(newFile, true);
+        BufferedReader reader = new BufferedReader(new FileReader(fileName));
+        String line;
+        while ((line = reader.readLine()) != null) {
+            newFileBook.write(line.concat("\n"));
+        }
+        reader.close();
+        newFileBook.close();
+    }
+
+    public void createBookFile(String getBookTitleFileName) throws IOException {
+        File booksTitleFile = new File(getBookTitleFileName);
+        booksTitleFile.createNewFile();
+    }
+
+
+    public void overWriteFilesName(ArrayList<FileName> files) throws IOException {
+        this.addToFilesFile(files.stream()
+                .map(FileName::toString)
+                .collect(Collectors.joining(""))
+        );
+    }
 }

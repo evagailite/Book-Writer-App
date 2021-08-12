@@ -8,9 +8,17 @@ public class Menu {
         displayBookMenu();
 
         bookWriter.syncBooks();
+        try {
+            int userChoice = Integer.parseInt(scanner.nextLine());
+            handleBookChoice(userChoice);
+        } catch (Exception e) {
+            exceptionMessage();
+            e.printStackTrace();
+        }
+    }
 
-        int userChoice = Integer.parseInt(scanner.nextLine());
-        handleBookChoice(userChoice);
+    private void exceptionMessage() {
+        System.out.println("Something went wrong!");
     }
 
     private void handleBookChoice(int userChoice) {
@@ -25,17 +33,31 @@ public class Menu {
                 bookWriter.deleteBook();
                 break;
             case 4:
-                bookWriter.viewAllBooks();
+                bookWriter.viewAllBooksWithChapters();
                 break;
             case 5:
+                bookWriter.displayFinishedBooks();
+                break;
+            case 6:
                 System.out.println("Thank you for visiting Book Writer!");
                 System.exit(0);
                 break;
             default:
-                starts();
+                handleBook();
                 break;
         }
-        starts();
+        handleBook();
+    }
+
+    private void handleBook() {
+        displayBookMenu();
+        try {
+            int userChoice = Integer.parseInt(scanner.nextLine());
+            handleBookChoice(userChoice);
+        } catch (Exception e) {
+            exceptionMessage();
+            e.printStackTrace();
+        }
     }
 
     private void openBook() {
@@ -55,6 +77,7 @@ public class Menu {
             }
         } catch (Exception e) {
             System.out.println("Something went wrong!");
+            e.printStackTrace();
         }
     }
 
@@ -70,21 +93,29 @@ public class Menu {
                 bookWriter.viewChaptersWithContent(bookTitle);
                 break;
             case 4:
-                //bookWriter.mergeAllChapters();
+                bookWriter.mergeAllChapters(bookTitle);
                 break;
-
             case 5:
                 displayBookMenu();
                 int choice = Integer.parseInt(scanner.nextLine());
                 handleBookChoice(choice);
                 break;
             default:
-                handleChapterChoice(userChoice, bookTitle);
+                handleChapter(bookTitle);
                 break;
         }
+        handleChapter(bookTitle);
+    }
+
+    private void handleChapter(String bookTitle) {
         displayChapterMenu();
-        int choice = Integer.parseInt(scanner.nextLine());
-        handleChapterChoice(choice, bookTitle);
+        try {
+            int choice = Integer.parseInt(scanner.nextLine());
+            handleChapterChoice(choice, bookTitle);
+        } catch (Exception e) {
+            exceptionMessage();
+            e.printStackTrace();
+        }
     }
 
     public void displayBookMenu() {
@@ -92,8 +123,9 @@ public class Menu {
         System.out.println("\t 1 - Create a New Book");
         System.out.println("\t 2 - Open a Book");
         System.out.println("\t 3 - Delete a Book");
-        System.out.println("\t 4 - View all Books");
-        System.out.println("\t 5 - Exit");
+        System.out.println("\t 4 - View List of All Books with Chapters");
+        System.out.println("\t 5 - View Finished Books");
+        System.out.println("\t 6 - Exit");
     }
 
     public void displayChapterMenu() {
@@ -101,7 +133,7 @@ public class Menu {
         System.out.println("\t 1 - Create New Chapter");
         System.out.println("\t 2 - Open Chapter to Continue Writing");
         System.out.println("\t 3 - View Chapter");
-        System.out.println("\t 4 - Export All Chapters to Book");
+        System.out.println("\t 4 - Merge All Chapters");
         System.out.println("\t 5 - Return to Main");
     }
 
