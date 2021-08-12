@@ -30,15 +30,12 @@ public class Menu {
                 openBook();
                 break;
             case 3:
-                bookWriter.deleteBook();
-                break;
-            case 4:
                 bookWriter.viewAllBooksWithChapters();
                 break;
-            case 5:
+            case 4:
                 bookWriter.displayFinishedBooks();
                 break;
-            case 6:
+            case 5:
                 System.out.println("Thank you for visiting Book Writer!");
                 System.exit(0);
                 break;
@@ -122,10 +119,9 @@ public class Menu {
         System.out.println("\nPlease choose an action: ");
         System.out.println("\t 1 - Create a New Book");
         System.out.println("\t 2 - Open a Book");
-        System.out.println("\t 3 - Delete a Book");
-        System.out.println("\t 4 - View List of All Books with Chapters");
-        System.out.println("\t 5 - View Finished Books");
-        System.out.println("\t 6 - Exit");
+        System.out.println("\t 3 - View List of All Books with Chapters");
+        System.out.println("\t 4 - View Finished Books");
+        System.out.println("\t 5 - Exit");
     }
 
     public void displayChapterMenu() {

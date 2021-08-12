@@ -20,6 +20,7 @@ public class BookWriter {
         String fileName = chapterTitle.concat(fileNameExtension);
         try {
             FileName file = collectFileName(fileName);
+
             storageManager.addToFilesFile(file);
             storageManager.createBookTitleFile(fileName);
             storageManager.addBookTitleAndChapter(book, chapter, fileName);
@@ -64,18 +65,6 @@ public class BookWriter {
             collectChapter();
         }
         return chapter;
-    }
-
-    public void deleteBook() {
-        viewAllBooksWithChapters();
-        try {
-            System.out.print("Please enter Book Title to delete: ");
-            String bookTitle = scanner.nextLine();
-            removeBooksAndChapters(bookTitle);
-        } catch (Exception e) {
-            System.out.println("Something went wrong!");
-            e.printStackTrace();
-        }
     }
 
     public void viewAllBooksWithChapters() {
@@ -259,7 +248,7 @@ public class BookWriter {
 
             getChapters(bookTitle, fileName);
             finishedBooksFiles.add(bookTitle.concat(",\n"));
-            removeBooksAndChapters(bookTitle);
+
             System.out.println("Chapter merged! The Book \"" + bookTitle + "\" successfully finished!");
         } catch (IOException e) {
             e.printStackTrace();
@@ -288,9 +277,6 @@ public class BookWriter {
         }
     }
 
-    public void removeBooksAndChapters(String bookTitle) {
-        writer.remove(bookTitle);
-    }
 
     public void viewFinishedBooks() {
         try {
@@ -317,4 +303,5 @@ public class BookWriter {
             viewFinishedBooks();
         }
     }
+
 }

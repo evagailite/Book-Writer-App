@@ -140,4 +140,9 @@ public class StorageManager {
                 .collect(Collectors.joining(""))
         );
     }
+
+    public void delete(String bookTitle) {
+        File deleteFile = new File(bookTitle);
+        deleteFile.delete();
+    }
 }
