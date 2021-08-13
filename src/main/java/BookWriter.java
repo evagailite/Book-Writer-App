@@ -153,23 +153,38 @@ public class BookWriter {
             System.out.print("Please enter chapter title to open it:");
             String chapterTitle = scanner.nextLine();
             System.out.println(" ");
-            if (doesChapterExists(chapterTitle)) {
-
-                String chapter = chapterTitle.replaceAll("\\s+", "");
-                String fileNameExtension = ".txt";
-                String fileName = chapter.concat(fileNameExtension);
-
-                storageManager.displayChapterContent(fileName);
-
-                createContent(fileName);
-
+            if (bookChaptersList.size() == 0) {
+                if (writer.containsValue(chapterTitle)) {
+                    writeChapter(chapterTitle);
+                } else {
+                    System.out.println("Chapter with the title \"" + chapterTitle + "\" not found!");
+                    System.out.println("Please try again!");
+                }
             } else {
-                System.out.println("Chapter with the title \"" + chapterTitle + "\" not found!");
-                System.out.println("Please try again!");
+                if (doesChapterExists(chapterTitle)) {
+                    writeChapter(chapterTitle);
+
+                } else {
+                    System.out.println("Chapter with the title \"" + chapterTitle + "\" not found!");
+                    System.out.println("Please try again!");
+                }
             }
         } catch (Exception e) {
             System.out.println("Something went wrong!");
         }
+    }
+
+    private void writeChapter(String chapterTitle) {
+        String chapter = chapterTitle.replaceAll("\\s+", "");
+        String fileNameExtension = ".txt";
+        String fileName = chapter.concat(fileNameExtension);
+
+        try {
+            storageManager.displayChapterContent(fileName);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        createContent(fileName);
     }
 
     private void createContent(String fileName) {
@@ -203,7 +218,7 @@ public class BookWriter {
     private void displayChapter(String bookTitle) {
         System.out.println("All chapters within Book \"" + bookTitle + "\": ");
         if (bookChaptersList.size() == 0) {
-            writer.forEach((key, value) -> System.out.println(key + " : " + value));
+            writer.forEach((key, value) -> System.out.println(value));
         } else {
             for (int i = 0; i < bookChaptersList.size(); i++) {
                 HashMap<Book, Chapter> tmpData = (HashMap<Book, Chapter>) bookChaptersList.get(i);
@@ -244,7 +259,7 @@ public class BookWriter {
         String fileName = bookTitle.replaceAll("\\s+", "").concat(".txt");
         try {
             storageManager.createBookFile(fileName);
-            storageManager.addFinishedBookToFile(fileName);
+            storageManager.addFinishedBookToFile(fileName.concat(",\n"));
 
             getChapters(bookTitle, fileName);
             finishedBooksFiles.add(bookTitle.concat(",\n"));

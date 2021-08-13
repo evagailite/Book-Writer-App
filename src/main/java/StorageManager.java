@@ -66,12 +66,14 @@ public class StorageManager {
     public HashMap<Book, Chapter> getBookAndChapters(String fileName) throws IOException {
         HashMap<Book, Chapter> bookChapterHashMap = new HashMap();
         BufferedReader reader = new BufferedReader(new FileReader(fileName));
+        int i = 0;
         String key = reader.readLine();
         String value = reader.readLine();
-        while (key != null && value != null) {
+        while (key != null && value != null && i < 1) {
             bookChapterHashMap.put(new Book(key), new Chapter(value));
             key = reader.readLine();
             value = reader.readLine();
+            i++;
         }
         return bookChapterHashMap;
     }
