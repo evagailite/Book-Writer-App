@@ -13,9 +13,6 @@ Application has following functions:
 ```
 Console output examples:
 
-<img src="">
-<img src="">
-<img src="">
-<img src="">
-<img src="">
-<img src="">
+<img src="images/startView.PNG">
+<img src="images/viewBooks.PNG">
+<img src="iamges/continueChapter.PNG">
