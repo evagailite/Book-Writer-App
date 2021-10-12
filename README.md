@@ -1,7 +1,7 @@
 # Java Console Based Application 
 
 Application provide to write books, long texts, etc., or continue previous started, saved/view the created books and chapters.
-Information has bees stored using Files
+Information has been stored using Files.
 
 Application has following functions:
 ```
