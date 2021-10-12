@@ -15,4 +15,4 @@ Console output examples:
 
 <img src="images/startView.PNG">
 <img src="images/viewBooks.PNG">
-<img src="iamges/continueChapter.PNG">
+<img src="images/continueChapter.PNG">
